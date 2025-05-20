@@ -27,4 +27,28 @@ export class MuseumsService {
       throw new BadRequestException('Falha ao criar museu');
     }
   }
+
+  async getVisitsForMuseum(museumId: string) {
+    const museum = await this.prisma.museum.findUnique({
+      where: { id: museumId },
+    });
+    if (!museum) throw new NotFoundException('Museu não encontrado');
+    return this.prisma.visit.findMany({
+      where: { museumId },
+      include: {
+        museum: {
+          select: {
+            name: true,
+          },
+        },
+        user: {
+          select: {
+            name: true,
+            birthPlace: true,
+          },
+        },
+      },
+      orderBy: { visitedAt: 'asc' },
+    });
+  }
 }
