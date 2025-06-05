@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
-import { IsUUID } from 'class-validator';
+import { IsString, IsUUID } from 'class-validator';
 
 export class CreateVisitDto {
   @IsUUID()
   museumId: string;
+  @IsString()
+  name: string;
+  @IsString()
+  birthPlace: string;
 }

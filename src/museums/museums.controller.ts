@@ -31,17 +31,29 @@ export class MuseumsController {
     return this.service.create(dto);
   }
 
+  @Get(':id/visits')
+  async getVisitsForMuseum(@Param('id') museumId: string) {
+    const visits = await this.service.getVisitsForMuseum(museumId);
+    if (!visits.length)
+      throw new NotFoundException('Nenhuma visita encontrada');
+    return visits;
+  }
+
   @Get(':id/visits/download')
   async getCsvFile(@Param('id') museumId: string): Promise<StreamableFile> {
     const visits = await this.service.getVisitsForMuseum(museumId);
     if (!visits.length)
       throw new NotFoundException('Nenhuma visita encontrada');
+
     const museumName = visits[0].museum.name.replace(/\s+/g, '_');
     const pass = new PassThrough();
-    pass.write('Name,BirthPlace\n');
-    for (const { user } of visits) {
+    pass.write('Name,BirthPlace,Date\n');
+
+    for (const { name, birthPlace, visitedAt } of visits) {
       const escape = (str: string) => `"${str.replace(/"/g, '""')}"`;
-      pass.write(`${escape(user.name)},${escape(user.birthPlace)}\n`);
+      pass.write(
+        `${escape(name)},${escape(birthPlace)},${visitedAt.toISOString()}\n`,
+      );
     }
     pass.end();
 
