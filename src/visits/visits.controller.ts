@@ -1,6 +1,6 @@
 import { Controller, Post, Get, Delete, Param, Body } from '@nestjs/common';
 import { VisitsService } from './visits.service';
-import { CreateVisitDto } from 'src/museums/dto/create-visit.dto';
+import { CreateVisitDto } from '../museums/dto/create-visit.dto';
 
 @Controller('users/:userId/visits')
 export class VisitsController {

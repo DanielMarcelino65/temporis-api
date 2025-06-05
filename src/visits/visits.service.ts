@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateVisitDto } from 'src/museums/dto/create-visit.dto';
+import { CreateVisitDto } from '../museums/dto/create-visit.dto';
 
 @Injectable()
 export class VisitsService {

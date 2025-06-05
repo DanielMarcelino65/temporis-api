@@ -21,5 +21,8 @@
                 "OPTIONS"
             ]
         }
-    ]
+    ],
+    "env": {
+        "PRISMA_CLIENT_ENGINE_TYPE": "dataproxy"
+    }
 }
